@@ -1,0 +1,21 @@
+services:
+  database:
+    image: postgres:18.3
+    environment:
+      POSTGRES_USER: todo
+      POSTGRES_PASSWORD: todo
+      POSTGRES_DB: todo
+    volumes:
+      - postgres_data:/var/lib/postgresql
+
+  app:
+    build: .
+    ports:
+      - "6400:6400"
+    environment:
+      SQLALCHEMY_DATABASE_URI: postgresql+psycopg2://todo:todo@database:5432/todo
+    depends_on:
+      - database
+
+volumes:
+  postgres_data:
